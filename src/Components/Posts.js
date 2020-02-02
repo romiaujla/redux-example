@@ -5,9 +5,25 @@ import PropTypes from 'prop-types';
 
 class Posts extends Component {
 
+    static defaultProps = {
+        posts: [],
+        fetchPosts: () => {},
+        newPost: {}
+    }
+
     constructor(props){
         super(props);
         this.props.fetchPosts();
+        this.state = {
+            posts: [],
+            newPost: {}
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps){
+        if(nextProps.newPost){
+            return {newPost: nextProps.newPost}
+        }
     }
 
     renderPosts = () => {
@@ -33,10 +49,12 @@ class Posts extends Component {
 Posts.propTypes = {
     fetchPosts: PropTypes.func.isRequired,
     posts: PropTypes.array.isRequired,
+    newPost: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
-    posts: state.posts.items
+    posts: state.posts.items,
+    newPost: state.posts.item,
 })
  
 export default connect(mapStateToProps, { fetchPosts })(Posts);

@@ -21,8 +21,8 @@ class Posts extends Component {
     }
 
     static getDerivedStateFromProps(nextProps){
-        if(nextProps.newPost){
-            return {newPost: nextProps.newPost}
+        if(nextProps.newPost.hasOwnProperty('id')){
+            return nextProps.posts.unshift(nextProps.newPost);
         }
     }
 
@@ -57,4 +57,4 @@ const mapStateToProps = state => ({
     newPost: state.posts.item,
 })
  
-export default connect(mapStateToProps, { fetchPosts })(Posts);
+export default connect(mapStateToProps, { fetchPosts })(Posts); 
